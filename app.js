@@ -6,6 +6,8 @@ const morgan = require('morgan');
 const flash = require('connect-flash');
 require('dotenv').config();
 
+const indexRouter = require('./routes');
+
 const app = express();
 
 app.set('views', path.join(__dirname, 'views'));
@@ -27,6 +29,8 @@ app.use(session({
     },
 }));
 app.use(flash());
+
+app.use('/', indexRouter);
 
 app.use((req, res, next) => {
     const err = new Error('Not Found');
