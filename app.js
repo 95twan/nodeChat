@@ -4,6 +4,7 @@ const cookieParser = require('cookie-parser');
 const session = require('express-session');
 const morgan = require('morgan');
 const flash = require('connect-flash');
+const ColorHash = require('color-hash');
 require('dotenv').config();
 
 const webSocket = require('./socket');
@@ -33,6 +34,14 @@ app.use(session({
 }));
 app.use(flash());
 
+app.use((req, res, next) => {
+    if (!req.session.color) {
+        const colorHash = new ColorHash();
+        req.session.color = colorHash.hex(req.sessionID);
+    }
+    next();
+})
+
 app.use('/', indexRouter);
 
 app.use((req, res, next) => {
@@ -51,4 +60,4 @@ const server = app.listen(app.get('port'), () => {
     console.log(app.get('port'), '번 포트에서 대기 중');
 });
 
-webSocket(server);
+webSocket(server, app);
