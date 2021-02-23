@@ -35,12 +35,12 @@ app.use('/', indexRouter);
 
 app.use((req, res, next) => {
     const err = new Error('Not Found');
-    err.statis = 404;
+    err.status = 404;
     next(err);
 });
 app.use((err, req, res, next) => {
-    res.local.message = err.message;
-    res.local.error = req.app.get('env') === 'development' ? err : {};
+    res.locals.message = err.message;
+    res.locals.error = req.app.get('env') === 'development' ? err : {};
     res.status(err.status || 500);
     res.render('error');
 });
