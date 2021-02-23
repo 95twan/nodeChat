@@ -1,4 +1,4 @@
-const { default: axios } = require('axios');
+const axios = require('axios');
 const SocketIO = require('socket.io');
 
 module.exports = (server, app, sessionMiddleware) => {
